@@ -1,0 +1,32 @@
+anguage: node_js
+
+node_js:
+- '6'
+
+addons:
+  apt:
+    sources:
+    - heroku
+    packages:
+    - heroku-toolbelt
+        
+install:
+- npm install
+
+script: true
+
+before_deploy:
+- cat .netrc >> $HOME/.netrc
+- chmod 0600 /home/travis/.netrc
+- heroku apps
+- heroku apps | grep -q valeksieiev-$TRAVIS_BRANCH || heroku apps:create valeksieiev-$TRAVIS_BRANCH
+- heroku git:remote -a valeksieiev-$TRAVIS_BRANCH
+
+deploy:
+  provider: heroku
+  api_key: d9044ded-6634-459e-aa7d-0b7f71e38120
+  app: valeksieiev-$TRAVIS_BRANCH
+  on: $TRAVIS_BRANCH
+
+after_deploy:
+- ./node_modules/.bin/wdio wdio.conf || travis_terminate 1
