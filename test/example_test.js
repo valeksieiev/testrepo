@@ -3,7 +3,7 @@ var assert = require('assert')
 var should = require('should');
 
 var branchName = process.env.TRAVIS_BRANCH
-var branchUrl = 'http://valeksieiev-' + branchName + '.herokuapp.com'
+var branchUrl = 'https://valeksieiev-' + branchName + '.herokuapp.com'
     
 describe('Home page tests', function() {
     it('Header is correct', function() {
